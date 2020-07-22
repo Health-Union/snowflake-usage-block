@@ -1,4 +1,4 @@
-connection: "account_usage"
+connection: "hu_snowflake"
 
 # include all the views
 include: "*.view"
