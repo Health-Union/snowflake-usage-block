@@ -18,6 +18,7 @@ named_value_format: conditional_to_millions {
 persist_with: snowflake_usage_block_default_datagroup
 
 explore: login_history {
+  hidden: yes
 }
 
 explore: query_history {
@@ -26,6 +27,7 @@ explore: query_history {
     sql_on: ${query_history.database_name} = ${databases.database_name} ;;
     relationship: many_to_one
   }
+  hidden: yes
 
 #   join: schemata {
 #     type: left_outer
@@ -44,15 +46,16 @@ explore: query_history {
 
 explore: load_history {
   fields: [ALL_FIELDS*,-tables.table_name,-tables.id]
+  hidden: yes
   join: tables {
     sql_on: ${load_history.table_id} = ${tables.id} ;;
     relationship: many_to_one
   }
 }
 
-explore: storage_usage {}
+explore: storage_usage {hidden:yes}
 
-explore: warehouse_metering_history {}
+explore: warehouse_metering_history {hidden:yes}
 
 # explore: columns {}
 #
