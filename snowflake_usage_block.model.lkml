@@ -11,6 +11,11 @@ datagroup: snowflake_usage_block_default_datagroup {
   max_cache_age: "1 hour"
 }
 
+access_grant: can_see_snowflake_usage_data {
+  user_attribute: can_see_snowflake_usage_data
+  allowed_values: ["yes"]
+}
+
 named_value_format: conditional_to_millions {
   value_format: "[>=1000000]0,,\"M\";[>=1000]0,\"K\";0"
 }
@@ -18,7 +23,7 @@ named_value_format: conditional_to_millions {
 persist_with: snowflake_usage_block_default_datagroup
 
 explore: login_history {
-  hidden: yes
+  required_access_grants: [can_see_snowflake_usage_data]
 }
 
 explore: query_history {
@@ -27,7 +32,7 @@ explore: query_history {
     sql_on: ${query_history.database_name} = ${databases.database_name} ;;
     relationship: many_to_one
   }
-  hidden: yes
+  required_access_grants: [can_see_snowflake_usage_data]
 
 #   join: schemata {
 #     type: left_outer
@@ -46,16 +51,20 @@ explore: query_history {
 
 explore: load_history {
   fields: [ALL_FIELDS*,-tables.table_name,-tables.id]
-  hidden: yes
   join: tables {
     sql_on: ${load_history.table_id} = ${tables.id} ;;
     relationship: many_to_one
   }
+  required_access_grants: [can_see_snowflake_usage_data]
 }
 
-explore: storage_usage {hidden:yes}
+explore: storage_usage {
+  required_access_grants: [can_see_snowflake_usage_data]
+}
 
-explore: warehouse_metering_history {hidden:yes}
+explore: warehouse_metering_history {
+  required_access_grants: [can_see_snowflake_usage_data]
+}
 
 # explore: columns {}
 #
